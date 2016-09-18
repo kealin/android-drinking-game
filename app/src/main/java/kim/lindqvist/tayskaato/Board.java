@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.content.Intent;
 import android.database.Cursor;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -38,9 +39,16 @@ public class Board extends AppCompatActivity {
 
         Card card = randomCard();
 
+        setContentView(R.layout.activity_game);
+        TextView title = (TextView)findViewById(R.id.board_title);
+        title.setText(card.getTitle());
+        TextView description = (TextView)findViewById(R.id.board_description);
+        description.setText(card.getDescription());
+
         // Set default image
         ImageView img = (ImageView) findViewById(R.id.board_image);
-        img.setImageResource(R.drawable.icon);
+        int resID = getResources().getIdentifier(card.getImage() , "drawable", getPackageName());
+        img.setImageResource(resID);
     }
 
     public int getRandomWithExclusion(Random rnd, int start, int end, int... exclude) {
