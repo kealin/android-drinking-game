@@ -8,11 +8,14 @@ import android.widget.ImageView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.widget.TextView;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.util.Random;
 
 public class Board extends AppCompatActivity {
 
+    private float x1,x2,y1,y2;
     private String difficulty;
     private static Context mContext;
     private DataAdapter mDbHelper;
@@ -50,6 +53,36 @@ public class Board extends AppCompatActivity {
         int resID = getResources().getIdentifier(card.getImage() , "drawable", getPackageName());
         img.setImageResource(resID);
     }
+
+    public boolean onTouchEvent(MotionEvent touchevent)
+    {
+        switch (touchevent.getAction())
+        {
+            // when user first touches the screen we get x and y coordinate
+            case MotionEvent.ACTION_DOWN:
+            {
+                x1 = touchevent.getX();
+                y1 = touchevent.getY();
+                break;
+            }
+            case MotionEvent.ACTION_UP:
+            {
+                x2 = touchevent.getX();
+                y2 = touchevent.getY();
+
+                //if left to right sweep event on screen
+                if (x1 < x2)
+                {
+                    Intent intent = new Intent(Board.this, Board.class);
+                    intent.putExtra("difficulty","easy");
+                    startActivity(intent);
+                }
+                break;
+            }
+        }
+        return false;
+    }
+
 
     public int getRandomWithExclusion(Random rnd, int start, int end, int... exclude) {
         int random = start + rnd.nextInt(end - start + 1 - exclude.length);
