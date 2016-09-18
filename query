@@ -1,0 +1,10 @@
+SELECT title
+			,description
+
+ FROM rules
+
+ INNER JOIN difficulty
+ ON difficulty.rule_id = rules._id and difficulty.difficulty = 'easy'
+ 
+ INNER JOIN cards
+ ON cards.rule_id = rules._id and cards.value = 0
